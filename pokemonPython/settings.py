@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pokemonApp.apps.PokemonappConfig',
-    'oauth2_provider'
 ]
 
 MIDDLEWARE = [

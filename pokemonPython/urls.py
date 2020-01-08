@@ -18,6 +18,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('pokemon/', include('pokemonApp.urls')),
-    path(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider'))
+    path('pokemon/', include('pokemonApp.urls'))
 ]
