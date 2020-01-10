@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Prokémon - Exploration</title>
+    <style>
+        body {
+            cursor: url(http://cur.cursors-4u.net/games/gam-13/gam1282.cur), auto;
+        }
+
+        h1 {
+            margin-top: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: black;
+        }
+        .pokemonImg {
+            display: block;
+            margin-top: 100px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 150px;
+            width: 150px;
+        }
+
+        .pokeballs {
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        .pokeball {
+            display: inline-block;
+            margin-left: 20px;
+            margin-right: 20px;
+            height: 100px;
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ pokemon.name }} has appeared</h1>
+    <p>-- debug --</p>
+    <p>base_xp : {{ base_xp }}</p>
+    <p>taux_capture : {{ taux_capture }}</p>
+    <p>qte_pokeball : {{ qte_pokeball }}</p>
+    <img class="pokemonImg" src="{{ pokemon.sprites.front_default }}">
+    <div class="pokeballs">
+        <img class="pokeball" src="https://www.pokepedia.fr/images/archive/e/e2/20141129225356%21Pok%C3%A9_Ball-RS.png">
+        <img class="pokeball" src="https://www.pokepedia.fr/images/f/f8/Super_Ball-RS.png">
+        <img class="pokeball" src="https://www.pokepedia.fr/images/b/bd/Hyper_Ball-RS.png">
+        <img class="pokeball" src="https://www.pokepedia.fr/images/a/ac/Master_Ball-RS.png">
+    </div>
+</body>
+</html>

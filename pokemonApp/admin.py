@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Inventaire, Shop, Money
 
-# Register your models here.
+admin.site.register(Inventaire)
+admin.site.register(Shop)
+admin.site.register(Money)
+

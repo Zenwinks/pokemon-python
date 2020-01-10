@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <title>ProKémon</title>
     <style>
+        body {
+            cursor: url(http://cur.cursors-4u.net/games/gam-13/gam1282.cur), auto;
+        }
+
         .wrapper {
             display: grid;
             grid-template-columns: 70% 30%;
@@ -44,9 +48,11 @@
         }
 
         .button:hover {
-            background-color: cornflowerblue;
+            background-image: url("https://cdn2.iconfinder.com/data/icons/pokemon-filledoutline/64/pokeball-people-pokemon-nintendo-video-game-gaming-gartoon-ball-512.png");
+            background-position: center;
+            background-size: 300px 300px;
             color: white;
-            cursor: pointer;
+            cursor: url(http://cur.cursors-4u.net/games/gam-13/gam1282.cur), auto;
         }
 
         .buttonInv{
@@ -58,7 +64,7 @@
         .buttonInv:hover {
             background-color: cornflowerblue;
             color: white;
-            cursor: pointer;
+            cursor: url(http://cur.cursors-4u.net/games/gam-13/gam1282.cur), auto;
         }
     </style>
 </head>
@@ -67,18 +73,18 @@
     <div class="leftside">
         <h1>Prokémon</h1>
         <div class="buttons">
-            <button type="button" class="button">Monde 1</button>
-            <button type="button" class="button">Monde 2</button>
-            <button type="button" class="button">Monde 3</button>
-            <button type="button" class="button">Monde 4</button>
-            <button type="button" class="button">Monde 5</button>
-            <button type="button" class="button">Monde 6</button>
-        </div>
+            <a href="/pokemon/world/1"><button type="button" class="button">Monde 1</button></a>
+            <a href="/pokemon/world/2"><button type="button" class="button">Monde 2</button></a>
+            <a href="/pokemon/world/3"><button type="button" class="button">Monde 3</button></a>
+            <a href="/pokemon/world/4"><button type="button" class="button">Monde 4</button></a>
+            <a href="/pokemon/world/5"><button type="button" class="button">Monde 5</button></a>
+            <a href="/pokemon/world/6"><button type="button" class="button">Monde 6</button></a>
+        </div> href=/pokemon/world/
     </div>
     <div class="rightside">
-        <button type="button" class="buttonInv">Équipe</button>
+        <a href="/pokemon/equipe"><button type="button" class="buttonInv">Équipe</button></a>
         <button type="button" class="buttonInv">Pokédex</button>
-        <button type="button" class="buttonInv">Inventaire</button>
+        <a href="/pokemon/inventory"><button type="button" class="buttonInv">Inventaire</button></a>
         <button type="button" class="buttonInv">Multijoueur</button>
     </div>
 </div>

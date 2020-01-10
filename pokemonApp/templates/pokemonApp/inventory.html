@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Prokémon - Inventaire</title>
+    <style>
+        .inventoryList{
+            list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+{% for m in money %}
+    <p>{{ m.qte }} $</p>
+{% endfor %}
+{% for item in inventaire %}
+    <a class="inventoryList">
+        <li>
+            <p><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/{{ item.en_name }}.png"> {{ item.item }} : {{ item.qte }}</p>
+        </li>
+        <span class="tooltiptext">{{ item.description }}</span>
+    </a>
+{% endfor %}
+</body>
+</html>
