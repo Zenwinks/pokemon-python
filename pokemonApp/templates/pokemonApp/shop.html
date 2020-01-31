@@ -71,10 +71,11 @@
           color: #fff;
           text-align: center;
           border-radius: 6px;
+          margin-top: -10px;
           padding: 5px 0;
           position: absolute;
           z-index: 1;
-          top: 125%;
+          top: 110%;
           left: 20%;
           margin-left: -60px;
           opacity: 0;
@@ -97,20 +98,27 @@
           opacity: 1;
         }
 
+        .tooltiptext:hover{
+            visibility: visible;
+        }
+
     </style>
 </head>
 <body>
     <div id="shop">
         <h1>Magasin</h1>
+            {% for m in money %}
+                <p>Money : {{ m.qte }} $</p>
+            {% endfor %}
         <ul id="items" class="items">
             {% for item in items %}
-                <a class="tooltip">
+                <a id="buttonItem" class="tooltip">
                     <li>
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/{{ item.en_name }}.png">
-                        <p>{{ item.item }}</p>
-                        <p>{{ item.prix }} $</p>
+                        <img id="imgItem" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/{{ item.en_name }}.png">
+                        <p id="shopItem">{{ item.item }}</p>
+                        <p id="itemPrice">{{ item.prix }} $</p>
                     </li>
-                    <span class="tooltiptext">{{ item.description }}</span>
+                    <div id="itemDesc" class="tooltiptext">{{ item.description }}<br><button>test</button></div>
                 </a>
             {% endfor %}
         </ul>

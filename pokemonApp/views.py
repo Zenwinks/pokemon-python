@@ -26,7 +26,7 @@ def equipe(request):
 
 
 def getInventory(request):
-    inventaire = Inventaire.objects.all()
+    inventaire = Inventaire.objects.filter(qte__gt=0)
     money = Money.objects.all()
     context = {'inventaire': inventaire, 'money': money}
     return render(request, "pokemonApp/inventory.html", context)
@@ -74,13 +74,14 @@ def getExplore(request, id):
         qte_pokeball = inventaire.qte
 
     context = {'idMonde': id, 'random_id': random_id, 'pokemon': pokemon, 'types': types, 'base_xp': base_xp,
-               'taux_capture': taux_capture, 'qte_pokeball': qte_pokeball}
+               'taux_capture': taux_capture, 'qte_pokeball': qte_pokeball, 'inventaire': inventaire}
     return render(request, "pokemonApp/explore.html", context)
 
 
 def getShop(request):
     items = []
+    money = Money.objects.all()
     for shop in Shop.objects.all():
         items.append(shop)
-    context = {'items': items}
+    context = {'items': items, 'money': money}
     return render(request, "pokemonApp/shop.html", context)
