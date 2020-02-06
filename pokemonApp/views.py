@@ -1,6 +1,5 @@
-from django.http import JsonResponse
 from django.shortcuts import render
-from pokemonApp.models import Inventaire, Shop, Money
+from pokemonApp.models import Inventaire, Shop, Money, Equipe
 import requests
 import random
 
@@ -38,6 +37,42 @@ def getWorld(request, id):
     context = {'idMonde': idMonde}
     return render(request, "pokemonApp/world.html", context)
 
+def getFight(request, id):
+    random_id = ''
+    if id == '1':
+        random_id = str(random.randint(1, 151))
+    elif id == '2':
+        random_id = str(random.randint(152, 251))
+    elif id == '3':
+        random_id = str(random.randint(252, 386))
+    elif id == '4':
+        random_id = str(random.randint(387, 493))
+    elif id == '5':
+        random_id = str(random.randint(494, 649))
+    elif id == '6':
+        random_id = str(random.randint(650, 721))
+    pokemon = requests.get(GET_POKEMON + random_id).json()
+
+    idPokemons = Equipe.objects.all()
+    equipe= []
+    for i in range(len(idPokemons)):
+        equipe.append(requests.get(GET_POKEMON + str(idPokemons[i])).json())
+
+    movesteam = []
+    for pokeMove in equipe[0]["moves"]:
+        t = requests.get(pokeMove["move"]["url"])
+        movesteam.append(t.json())
+        if (len(movesteam) > 3):
+            break;
+
+    moves = []
+    for pokeMove in pokemon["moves"]:
+        t = requests.get(pokeMove["move"]["url"])
+        moves.append(t.json())
+        if(len(moves)>3):
+            break;
+    context = {'idMonde': id, 'random_id': random_id, 'pokemon': pokemon, 'moves': moves, 'equipe': equipe, 'movesTeam': movesteam}
+    return render(request, "pokemonApp/fight.html", context)
 
 def getExplore(request, id):
     random_id = ''
@@ -53,6 +88,7 @@ def getExplore(request, id):
         random_id = str(random.randint(494, 649))
     elif id == '6':
         random_id = str(random.randint(650, 721))
+
     pokemon = requests.get(GET_POKEMON + random_id).json()
 
     types = []
@@ -73,9 +109,16 @@ def getExplore(request, id):
 
     for inventaire in Inventaire.objects.filter(item="pokeball"):
         qte_pokeball = inventaire.qte
+    for inventaire in Inventaire.objects.filter(item="superball"):
+        qte_superball = inventaire.qte
+    for inventaire in Inventaire.objects.filter(item="hyperball"):
+        qte_hyperball = inventaire.qte
+    for inventaire in Inventaire.objects.filter(item="masterball"):
+        qte_masterball = inventaire.qte
 
     context = {'idMonde': id, 'random_id': random_id, 'pokemon': pokemon, 'types': types, 'base_xp': base_xp,
-               'taux_capture': taux_capture, 'qte_pokeball': qte_pokeball, 'inventaire': inventaire}
+               'taux_capture': taux_capture, 'qte_pokeball': qte_pokeball, 'qte_superball': qte_superball,
+               'qte_hyperball': qte_hyperball, 'qte_masterball': qte_masterball}
     return render(request, "pokemonApp/explore.html", context)
 
 
@@ -94,3 +137,11 @@ def buyItemInShop(request, item, prix):
     inventaire.qte = str(int(inventaire.qte) + 1)
     inventaire.save()
     return getShop(request)
+
+
+def addToTeam(request, id):
+    Equipe.objects.create(idPokemon=id)
+    pokemon = requests.get(GET_POKEMON + id).json()
+    context = {'idPokemon': id, 'pokemon': pokemon}
+    return render(request, "pokemonApp/catchedPokemon.html", context)
+
