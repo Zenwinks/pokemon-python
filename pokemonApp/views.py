@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from pokemonApp.models import Inventaire, Shop, Money
+from pokemonApp.models import Inventaire, Shop, Money, Equipe
 import requests
 import random
 
@@ -38,6 +38,42 @@ def getWorld(request, id):
     context = {'idMonde': idMonde}
     return render(request, "pokemonApp/world.html", context)
 
+def getFight(request, id):
+    random_id = ''
+    if id == '1':
+        random_id = str(random.randint(1, 151))
+    elif id == '2':
+        random_id = str(random.randint(152, 251))
+    elif id == '3':
+        random_id = str(random.randint(252, 386))
+    elif id == '4':
+        random_id = str(random.randint(387, 493))
+    elif id == '5':
+        random_id = str(random.randint(494, 649))
+    elif id == '6':
+        random_id = str(random.randint(650, 721))
+    pokemon = requests.get(GET_POKEMON + random_id).json()
+
+    idPokemons = Equipe.objects.all()
+    equipe= []
+    for i in range(len(idPokemons)):
+        equipe.append(requests.get(GET_POKEMON + str(idPokemons[i])).json())
+
+    movesteam = []
+    for pokeMove in equipe[0]["moves"]:
+        t = requests.get(pokeMove["move"]["url"])
+        movesteam.append(t.json())
+        if (len(movesteam) > 3):
+            break;
+
+    moves = []
+    for pokeMove in pokemon["moves"]:
+        t = requests.get(pokeMove["move"]["url"])
+        moves.append(t.json())
+        if(len(moves)>3):
+            break;
+    context = {'idMonde': id, 'random_id': random_id, 'pokemon': pokemon, 'moves': moves, 'equipe': equipe, 'movesTeam': movesteam}
+    return render(request, "pokemonApp/fight.html", context)
 
 def getExplore(request, id):
     random_id = ''
@@ -53,6 +89,7 @@ def getExplore(request, id):
         random_id = str(random.randint(494, 649))
     elif id == '6':
         random_id = str(random.randint(650, 721))
+
     pokemon = requests.get(GET_POKEMON + random_id).json()
 
     types = []
@@ -93,3 +130,11 @@ def getShop(request):
         items.append(shop)
     context = {'items': items, 'money': money}
     return render(request, "pokemonApp/shop.html", context)
+
+
+def addToTeam(request, id):
+    Equipe.objects.create(idPokemon=id)
+    pokemon = requests.get(GET_POKEMON + id).json()
+    context = {'idPokemon': id, 'pokemon': pokemon}
+    return render(request, "pokemonApp/catchedPokemon.html", context)
+
