@@ -10,19 +10,26 @@ def getHome(request):
     return render(request, "pokemonApp/home.html")
 
 
-def equipe(request):
-    # TODO remplacer l'appel des pokemons par ceux de l'équipe
-    pokemonList = requests.get(GET_POKEMON + "?limit=6")
-    context = {'pokemonList': pokemonList.json()}
-    for i in range(len(context['pokemonList']['results'])):
-        id = context['pokemonList']['results'][i]['url'].split("/")
-        context['pokemonList']['results'][i]['id'] = id[-2]
+def getEquipe(request):
+    results = []
+    idPokemon = Equipe.objects.all()
+    i = 0
+    for i in range(len(idPokemon)):
+        pokemonList = requests.get(GET_POKEMON + '/' + str(idPokemon[i]))
+        results.append(pokemonList.json())
+        if i > 4:
+            break
 
+    context = {'pokemonList': results}
+
+    return render(request, "pokemonApp/equipe.html", context)
+
+
+def changeEquipe(request):
     # TODO le clique sur le bouton "changer un membre de l'équipe" doit permettre de selectionner un des pokémons de l'équipe
     # TODO lors de la selection du pokémon, envoi sur la page des pokémons capturés où l'utilisateur doit sélectionner le pokémon qu'il veut ajouter
     # UPDATE equipe WHERE id_pokemon = $id_pokemon_ancien SET id_pokemon = $id_pokemon_nouveau
-
-    return render(request, "pokemonApp/equipe.html", context)
+    a = []
 
 
 def getInventory(request):
@@ -123,12 +130,20 @@ def getExplore(request, id):
 
 
 def getShop(request):
-    items = []
-    money = Money.objects.all()
-    for shop in Shop.objects.all():
-        items.append(shop)
-    context = {'items': items, 'money': money}
+    money = Money.objects.get()
+    shop = Shop.objects.all()
+    context = {'items': shop, 'money': money}
     return render(request, "pokemonApp/shop.html", context)
+
+
+def buyItemInShop(request, item, prix):
+    money = Money.objects.get()
+    money.qte = str(int(money.qte) - int(prix))
+    money.save()
+    inventaire = Inventaire.objects.get(item=item.lower())
+    inventaire.qte = str(int(inventaire.qte) + 1)
+    inventaire.save()
+    return getShop(request)
 
 
 def addToTeam(request, id):

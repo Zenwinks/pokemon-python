@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <title>Prokémon - Magasin</title>
     <style>
-        html, body{
+        html, body {
             background-image: url("https://cdna.artstation.com/p/assets/images/images/003/701/294/large/jessika-salenson-pokemon-shop-ingameview.jpg?1476607218");
             background-position: center;
             background-size: 1920px 1080px;
             background-attachment: fixed;
         }
+
         body {
             cursor: url(http://cur.cursors-4u.net/games/gam-13/gam1282.cur), auto;
         }
@@ -60,73 +61,91 @@
         }
 
         .tooltip {
-          position: relative;
-          display: inline-block;
+            position: relative;
+            display: inline-block;
         }
 
         .tooltip .tooltiptext {
-          visibility: hidden;
-          width: 300px;
-          background-color: #555;
-          color: #fff;
-          text-align: center;
-          border-radius: 6px;
-          margin-top: -10px;
-          padding: 5px 0;
-          position: absolute;
-          z-index: 1;
-          top: 110%;
-          left: 20%;
-          margin-left: -60px;
-          opacity: 0;
-          transition: opacity 0.3s;
+            visibility: hidden;
+            width: 300px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            margin-top: -10px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            top: 110%;
+            left: 20%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         .tooltip .tooltiptext::after {
-          content: "";
-          position: absolute;
-          bottom: 100%;
-          left: 50%;
-          margin-left: -5px;
-          border-width: 5px;
-          border-style: solid;
-          border-color: #555 transparent transparent transparent;
+            content: "";
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
         }
 
         .tooltip:hover .tooltiptext {
-          visibility: visible;
-          opacity: 1;
+            visibility: visible;
+            opacity: 1;
         }
 
-        .tooltiptext:hover{
+        .tooltiptext:hover {
             visibility: visible;
         }
 
     </style>
 </head>
 <body>
-    <div id="shop">
-        <h1>Magasin</h1>
-            {% for m in money %}
-                <p>Money : {{ m.qte }} $</p>
-            {% endfor %}
-        <ul id="items" class="items">
-            {% for item in items %}
-                <a id="buttonItem{{ item.item }}" class="tooltip" onclick="testShop('{{ item.item }}')">
-                    <li>
-                        <img id="imgItem" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/{{ item.en_name }}.png">
-                        <p id="shopItem">{{ item.item }}</p>
-                        <p id="itemPrice">{{ item.prix }} $</p>
-                    </li>
-                    <div id="itemDesc" class="tooltiptext">{{ item.description }}<br><button>test</button></div>
-                </a>
-            {% endfor %}
-        </ul>
-    </div>
+<div id="shop">
+    <h1>Magasin</h1>
+    <p>Money : <span id="balance">{{ money.qte }} $</span></p>
+    <ul id="items" class="items">
+        {% for item in items %}
+            <a id="buttonItem{{ item.item }}" class="tooltip">
+                <li>
+                    <img class="imgItem"
+                         src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/{{ item.en_name }}.png">
+                    <p class="shopItem">{{ item.item }}</p>
+                    <p class="itemPrice">{{ item.prix }} $</p>
+                </li>
+                <div class="itemDesc tooltiptext">{{ item.description }}<br>
+                    <button>test</button>
+                </div>
+            </a>
+        {% endfor %}
+    </ul>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
-    function testShop(name) {
-        alert(name)
-    }
+    $('.tooltip').click(function (event) {
+        let elem = document.getElementById($(this)[0].id)
+        let item = elem.getElementsByClassName('shopItem')[0]
+        let balance = document.getElementById('balance')
+        let price = elem.getElementsByClassName('itemPrice')[0]
+        let p = price.innerText.split(' ')
+        let b = balance.innerText.split(' ')
+        if (parseInt(p[0]) > parseInt(b[0])) {
+            alert('Votre solde est insuffisant pour acheter cet objet')
+        } else {
+            $.ajax({
+                url: '/pokemon/buyItemInShop/' + item.innerText + '/' + p[0],
+                dataType: 'json'
+            })
+            setTimeout(function () {
+                location.reload()
+            }, 500)
+        }
+    })
 </script>
 </body>
 </html>
