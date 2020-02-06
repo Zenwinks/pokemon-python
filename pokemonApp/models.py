@@ -27,10 +27,3 @@ class Money(models.Model):
 
     def __str__(self):
         return str(self.qte)
-
-
-class Equipe(models.Model):
-    idPokemon = models.IntegerField(default=0)
-
-    def __str__(self):
-        return str(self.idPokemon)
