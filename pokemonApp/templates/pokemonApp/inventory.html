@@ -95,9 +95,7 @@
 <body>
 <div id="inventory">
     <h1>Inventaire</h1>
-    {% for m in money %}
-        <p>Money : {{ m.qte }} $</p>
-    {% endfor %}
+    <p>Money : {{ money.qte }} $</p>
     <ul class="items">
         {% for item in inventaire %}
             <a class="tooltip">
