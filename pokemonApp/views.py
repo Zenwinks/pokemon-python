@@ -10,19 +10,26 @@ def getHome(request):
     return render(request, "pokemonApp/home.html")
 
 
-def equipe(request):
-    # TODO remplacer l'appel des pokemons par ceux de l'équipe
-    pokemonList = requests.get(GET_POKEMON + "?limit=6")
-    context = {'pokemonList': pokemonList.json()}
-    for i in range(len(context['pokemonList']['results'])):
-        id = context['pokemonList']['results'][i]['url'].split("/")
-        context['pokemonList']['results'][i]['id'] = id[-2]
+def getEquipe(request):
+    results = []
+    idPokemon = Equipe.objects.all()
+    i = 0
+    for i in range(len(idPokemon)):
+        pokemonList = requests.get(GET_POKEMON + '/' + str(idPokemon[i]))
+        results.append(pokemonList.json())
+        if i > 4:
+            break
 
+    context = {'pokemonList': results}
+
+    return render(request, "pokemonApp/equipe.html", context)
+
+
+def changeEquipe(request):
     # TODO le clique sur le bouton "changer un membre de l'équipe" doit permettre de selectionner un des pokémons de l'équipe
     # TODO lors de la selection du pokémon, envoi sur la page des pokémons capturés où l'utilisateur doit sélectionner le pokémon qu'il veut ajouter
     # UPDATE equipe WHERE id_pokemon = $id_pokemon_ancien SET id_pokemon = $id_pokemon_nouveau
-
-    return render(request, "pokemonApp/equipe.html", context)
+    a = []
 
 
 def getInventory(request):
