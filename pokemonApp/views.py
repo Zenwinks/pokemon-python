@@ -27,7 +27,7 @@ def equipe(request):
 
 def getInventory(request):
     inventaire = Inventaire.objects.filter(qte__gt=0)
-    money = Money.objects.all()
+    money = Money.objects.get()
     context = {'inventaire': inventaire, 'money': money}
     return render(request, "pokemonApp/inventory.html", context)
 
@@ -36,6 +36,7 @@ def getWorld(request, id):
     idMonde = str(id)
     context = {'idMonde': idMonde}
     return render(request, "pokemonApp/world.html", context)
+
 
 def getFight(request, id):
     random_id = ''
@@ -54,7 +55,7 @@ def getFight(request, id):
     pokemon = requests.get(GET_POKEMON + random_id).json()
 
     idPokemons = Equipe.objects.all()
-    equipe= []
+    equipe = []
     for i in range(len(idPokemons)):
         equipe.append(requests.get(GET_POKEMON + str(idPokemons[i])).json())
 
@@ -69,10 +70,12 @@ def getFight(request, id):
     for pokeMove in pokemon["moves"]:
         t = requests.get(pokeMove["move"]["url"])
         moves.append(t.json())
-        if(len(moves)>3):
+        if (len(moves) > 3):
             break;
-    context = {'idMonde': id, 'random_id': random_id, 'pokemon': pokemon, 'moves': moves, 'equipe': equipe, 'movesTeam': movesteam}
+    context = {'idMonde': id, 'random_id': random_id, 'pokemon': pokemon, 'moves': moves, 'equipe': equipe,
+               'movesTeam': movesteam}
     return render(request, "pokemonApp/fight.html", context)
+
 
 def getExplore(request, id):
     random_id = ''
@@ -144,4 +147,3 @@ def addToTeam(request, id):
     pokemon = requests.get(GET_POKEMON + id).json()
     context = {'idPokemon': id, 'pokemon': pokemon}
     return render(request, "pokemonApp/catchedPokemon.html", context)
-
