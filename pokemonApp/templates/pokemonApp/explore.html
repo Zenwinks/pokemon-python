@@ -72,19 +72,22 @@
     </style>
 </head>
 <body>
-    <h1>{{ pokemon.name }} has appeared</h1>
-    <p>-- debug --</p>
+    <h1>{{ pokemon.name }} vient d'apparaitre</h1>
+    <!--<p>-- debug --</p>
     <p>base_xp : {{ base_xp }}</p>
     <p>taux_capture : {{ taux_capture }}</p>
     <p>qte_pokeball : {{ qte_pokeball }}</p>
-    <p>inventory[] : {{ inventory }}</p>
-    <label for="tauxCapture">File progress:</label>
+    <p>inventory[] : {{ inventory }}</p>-->
+    <label for="tauxCapture">Taux de capture:</label>
     <progress id="tauxCapture" max="100" value="{{ taux_capture }}"></progress>
 
     <div class="randomPokemon">
         <img class="pokemonImg" src="{{ pokemon.sprites.front_default }}">
         <div id="chosenPokeball"></div>
     </div>
+
+        <a href="/pokemon/addPokemon/{{ pokemon.id }}">add to team test</a>
+
     <div id="test"></div>
     <div class="pokeballs">
         <img id="pokeball" class="pokeball" style="grid-column: 1;grid-row: 1;" src="https://www.pokepedia.fr/images/e/e2/Pok%C3%A9_Ball-RS.png" onclick="myFunction(pokeball, {{ qte_pokeball }})">
@@ -101,20 +104,24 @@
 
         function myFunction(ball, qte){
                 document.getElementById("chosenPokeball").innerHTML = ""
+
             if(ball.id == "pokeball" && qte != 0){
-                document.getElementById("chosenPokeball").innerHTML = "<img id=\"chosenPokeball\" src=\"https://www.pokepedia.fr/images/e/e2/Pok%C3%A9_Ball-RS.png\">"
+                document.getElementById("chosenPokeball").innerHTML = "<img id=\"chosenPokeball\" src=\"https://www.pokepedia.fr/images/e/e2/Pok%C3%A9_Ball-RS.png\" onclick=\"capture()\" style=\"cursor: pointer\">"
                 taux_capture = {{ taux_capture }}
                 document.getElementById('tauxCapture').value = taux_capture;
+
             }else if(ball.id == "superball" && qte != 0){
-                document.getElementById("chosenPokeball").innerHTML = "<img id=\"chosenPokeball\" src=\"https://www.pokepedia.fr/images/f/f8/Super_Ball-RS.png\">"
+                document.getElementById("chosenPokeball").innerHTML = "<img id=\"chosenPokeball\" src=\"https://www.pokepedia.fr/images/f/f8/Super_Ball-RS.png\" onclick=\"capture()\" style=\"cursor: pointer\">"
                 taux_capture = {{ taux_capture }} + 15
                 document.getElementById('tauxCapture').value = taux_capture;
+
             }else if(ball.id == "hyperball" && qte != 0){
-                document.getElementById("chosenPokeball").innerHTML = "<img id=\"chosenPokeball\" src=\"https://www.pokepedia.fr/images/b/bd/Hyper_Ball-RS.png\">"
+                document.getElementById("chosenPokeball").innerHTML = "<img id=\"chosenPokeball\" src=\"https://www.pokepedia.fr/images/b/bd/Hyper_Ball-RS.png\" onclick=\"capture()\" style=\"cursor: pointer\">"
                 taux_capture = {{ taux_capture }} + 30
                 document.getElementById('tauxCapture').value = taux_capture;
+
             }else if(ball.id == "masterball" && qte != 0){
-                document.getElementById("chosenPokeball").innerHTML = "<img id=\"chosenPokeball\" src=\"https://www.pokepedia.fr/images/a/ac/Master_Ball-RS.png\">"
+                document.getElementById("chosenPokeball").innerHTML = "<img id=\"chosenPokeball\" src=\"https://www.pokepedia.fr/images/a/ac/Master_Ball-RS.png\" onclick=\"capture()\" style=\"cursor: pointer\">"
                 taux_capture = {{ taux_capture }} + 100
                 document.getElementById('tauxCapture').value = taux_capture;
             }
@@ -123,7 +130,12 @@
         function capture(){
             let rand = random(0 , 100)
             if(rand > taux_capture){
-
+                document.getElementById("test").innerHTML = "Failed"
+            }else{
+                $.ajax({
+                    url: '/pokemon/addPokemon/{{ pokemon.id }}',
+                    dataType: 'json'
+                  })
             }
         }
 
