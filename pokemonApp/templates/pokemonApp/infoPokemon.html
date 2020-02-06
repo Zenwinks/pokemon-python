@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokemon : {{ pokemon.name }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            background-image: url("https://external-preview.redd.it/z7_wYb9-YSvt0pDJlDIu8iuK_aWdqZPg0wvrGdwNvBw.png?auto=webp&s=b40bf3d0bccf7fe4f8dc601182710ca34eac2222");
+            background-attachment: fixed;
+            background-size: contain;
+        }
+
+        h1 {
+            text-align: center;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        h1:first-letter {
+            text-transform: uppercase;
+        }
+
+        .infos {
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+            margin: auto auto 30px auto;
+            background-color: white;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .entete {
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+            margin: auto;
+        }
+
+        .id-img {
+            margin: auto;
+            width: 200px;
+            height: 200px;
+        }
+
+        p:first-letter {
+            text-transform: uppercase;
+        }
+
+        a {
+            position: fixed;
+        }
+
+        h2 {
+            border: 2px solid black;
+        }
+
+        .ability, .type {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<a href="javascript:history.go(-1)" class="back">
+    <button>Retour</button>
+</a>
+<div class="entete">
+    <img src="http://www.pokestadium.com/assets/img/sprites/official-art/large/{{ pokemon.name }}.png" class="id-img">
+    <h1>{{ pokemon.name }} #{{ pokemon.id }}</h1>
+</div>
+<div class="infos">
+    <h2>Details</h2>
+    <p>Taille : {{ pokemon.height }}cm</p>
+    <p>Poids : {{ pokemon.weight }}kg</p>
+    <h2>Abilities</h2>
+    {% for ability in abilities %}
+        <p class="ability">{{ ability.name }}</p>
+        <p>Effects :</p>
+        {% for effect in ability.effect_entries %}
+            <p>{{ effect.effect }}</p>
+        {% endfor %}
+    {% endfor %}
+    <h2>Types</h2>
+    {% for type in types %}
+        <p class="type">{{ type.name }}</p>
+        <p>Damage Relations :</p>
+        <p>Double damage :</p>
+        <ul>
+            <li><p>From :</p>
+                <ul>
+                    {% for type in type.damage_relations.double_damage_from %}
+                        <li>{{ type.name }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li><p>To :</p>
+                {% for type in type.damage_relations.double_damage_to %}
+                    <li>{{ type.name }}</li>
+                {% endfor %}
+            </li>
+        </ul>
+    {% endfor %}
+</div>
+</body>
+</html>

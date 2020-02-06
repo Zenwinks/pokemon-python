@@ -9,6 +9,29 @@ GET_POKEMON = 'https://pokeapi.co/api/v2/pokemon/'
 def getHome(request):
     return render(request, "pokemonApp/home.html")
 
+def getPokedex(request):
+    pokemonList = requests.get(GET_POKEMON + "?limit=1000000")
+    context = {'pokemonList': pokemonList.json()}
+    for i in range(len(context['pokemonList']['results'])):
+        id = context['pokemonList']['results'][i]['url'].split("/")
+        context['pokemonList']['results'][i]['id'] = id[-2]
+    return render(request, "pokemonApp/pokedex.html", context)
+
+def getPokemonByName(request, name):
+    p = requests.get(GET_POKEMON + name)
+    pokemon = p.json()
+    pokemon["height"] = int(pokemon["height"] / 0.032808)
+    abilities = []
+    for ability in pokemon["abilities"]:
+        a = requests.get(ability['ability']['url'])
+        abilities.append(a.json())
+    types = []
+    for pokeType in pokemon["types"]:
+        t = requests.get(pokeType["type"]["url"])
+        types.append(t.json())
+    context = {'pokemon': pokemon, 'abilities': abilities, 'types': types}
+    return render(request, "pokemonApp/infoPokemon.html", context)
+
 
 def getEquipe(request):
     results = []
@@ -25,11 +48,11 @@ def getEquipe(request):
     return render(request, "pokemonApp/equipe.html", context)
 
 
-def changeEquipe(request):
-    # TODO le clique sur le bouton "changer un membre de l'équipe" doit permettre de selectionner un des pokémons de l'équipe
-    # TODO lors de la selection du pokémon, envoi sur la page des pokémons capturés où l'utilisateur doit sélectionner le pokémon qu'il veut ajouter
-    # UPDATE equipe WHERE id_pokemon = $id_pokemon_ancien SET id_pokemon = $id_pokemon_nouveau
-    a = []
+def changeEquipe(request, idOldPokemon, idNewPokemon):
+    pokemon = Equipe.objects.filter(idPokemon=idOldPokemon)
+    pokemon.idPokemon = idNewPokemon
+    pokemon.save()
+    return getEquipe(request)
 
 
 def getInventory(request):
