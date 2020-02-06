@@ -13,13 +13,11 @@
 {% for move in moves %}
     <p class="ability">{{ move.name }}</p>
 {% endfor %}
-{% for pokemon in equipe %}
-    <h2 class="ability">{{ pokemon.name }}</h2>
-    <div class="randomPokemon">
-    <img class="pokemonImg" src="{{ pokemon.sprites.front_default }}">
+    <h2 class="ability">{{ equipe.0.name }}</h2>
+<div class="randomPokemon">
+    <img class="pokemonImg" src="{{ equipe.0.sprites.front_default }}">
     <div id="chosenPokeball"></div>
 </div>
-{% endfor %}
 {% for move in movesTeam %}
     <button class="ability">{{ move.name }}</button>
 {% endfor %}
