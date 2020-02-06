@@ -112,7 +112,7 @@
             {% endfor %}
         <ul id="items" class="items">
             {% for item in items %}
-                <a id="buttonItem" class="tooltip">
+                <a id="buttonItem{{ item.item }}" class="tooltip" onclick="testShop('{{ item.item }}')">
                     <li>
                         <img id="imgItem" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/{{ item.en_name }}.png">
                         <p id="shopItem">{{ item.item }}</p>
@@ -123,5 +123,10 @@
             {% endfor %}
         </ul>
     </div>
+<script>
+    function testShop(name) {
+        alert(name)
+    }
+</script>
 </body>
 </html>
