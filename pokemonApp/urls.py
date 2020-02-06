@@ -7,5 +7,6 @@ urlpatterns = [
     path('inventory', views.getInventory, name="inventory"),
     path('world/<str:id>', views.getWorld, name="world"),
     path('explore/<str:id>', views.getExplore, name="explore"),
-    path('shop', views.getShop, name="shop")
+    path('shop', views.getShop, name="shop"),
+    path('buyItemInShop/<str:item>/<str:prix>', views.buyItemInShop, name="buyItemInShop")
 ]

@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from pokemonApp.models import Inventaire, Shop, Money
 import requests
@@ -79,9 +80,17 @@ def getExplore(request, id):
 
 
 def getShop(request):
-    items = []
-    money = Money.objects.all()
-    for shop in Shop.objects.all():
-        items.append(shop)
-    context = {'items': items, 'money': money}
+    money = Money.objects.get()
+    shop = Shop.objects.all()
+    context = {'items': shop, 'money': money}
     return render(request, "pokemonApp/shop.html", context)
+
+
+def buyItemInShop(request, item, prix):
+    money = Money.objects.get()
+    money.qte = str(int(money.qte) - int(prix))
+    money.save()
+    inventaire = Inventaire.objects.get(item=item.lower())
+    inventaire.qte = str(int(inventaire.qte) + 1)
+    inventaire.save()
+    return getShop(request)
