@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from pokemonApp.models import Inventaire, Shop, Money
+from pokemonApp.models import Inventaire, Shop, Money, Equipe
 import requests
 import random
 
@@ -52,6 +52,7 @@ def getExplore(request, id):
         random_id = str(random.randint(494, 649))
     elif id == '6':
         random_id = str(random.randint(650, 721))
+
     pokemon = requests.get(GET_POKEMON + random_id).json()
 
     types = []
@@ -92,3 +93,11 @@ def getShop(request):
         items.append(shop)
     context = {'items': items, 'money': money}
     return render(request, "pokemonApp/shop.html", context)
+
+
+def addToTeam(request, id):
+    Equipe.objects.create(idPokemon=id)
+    pokemon = requests.get(GET_POKEMON + id).json()
+    context = {'idPokemon': id, 'pokemon': pokemon}
+    return render(request, "pokemonApp/catchedPokemon.html", context)
+
