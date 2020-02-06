@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fight</title>
+</head>
+<body>
+<h1>{{ pokemon.name }} has appeared</h1>
+<div class="randomPokemon">
+    <img class="pokemonImg" src="{{ pokemon.sprites.front_default }}">
+    <div id="chosenPokeball"></div>
+</div>
+{% for move in moves %}
+    <p class="ability">{{ move.name }}</p>
+{% endfor %}
+{% for pokemon in equipe %}
+    <p class="ability">{{ pokemon.name }}</p>
+{% endfor %}
+{% for move in movesTeam %}
+    <p class="ability">{{ move.name }}</p>
+{% endfor %}
+</body>
+</html>
