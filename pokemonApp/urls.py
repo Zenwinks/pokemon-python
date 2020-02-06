@@ -8,6 +8,8 @@ urlpatterns = [
     path('world/<str:id>', views.getWorld, name="world"),
     path('explore/<str:id>', views.getExplore, name="explore"),
     path('shop', views.getShop, name="shop"),
+    path('buyItemInShop/<str:item>/<str:prix>', views.buyItemInShop, name="buyItemInShop"),
+    path('shop', views.getShop, name="shop"),
     path('fight/<str:id>', views.getFight, name="fight"),
     path('addPokemon/<str:id>', views.addToTeam, name="addPokemon"),
 ]
