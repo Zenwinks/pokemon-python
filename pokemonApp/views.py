@@ -72,9 +72,16 @@ def getExplore(request, id):
 
     for inventaire in Inventaire.objects.filter(item="pokeball"):
         qte_pokeball = inventaire.qte
+    for inventaire in Inventaire.objects.filter(item="superball"):
+        qte_superball = inventaire.qte
+    for inventaire in Inventaire.objects.filter(item="hyperball"):
+        qte_hyperball = inventaire.qte
+    for inventaire in Inventaire.objects.filter(item="masterball"):
+        qte_masterball = inventaire.qte
 
     context = {'idMonde': id, 'random_id': random_id, 'pokemon': pokemon, 'types': types, 'base_xp': base_xp,
-               'taux_capture': taux_capture, 'qte_pokeball': qte_pokeball, 'inventaire': inventaire}
+               'taux_capture': taux_capture, 'qte_pokeball': qte_pokeball, 'qte_superball': qte_superball,
+               'qte_hyperball': qte_hyperball, 'qte_masterball': qte_masterball}
     return render(request, "pokemonApp/explore.html", context)
 
 

@@ -19,7 +19,7 @@
         }
 
         .randomPokemon{
-            margin-bottom: 200px;
+            margin-bottom: 150px;
             display: grid;
             grid-template-rows: 100%;
             grid-template-columns: 20% 20% 20% 20% 20%;
@@ -80,29 +80,53 @@
     <p>inventory[] : {{ inventory }}</p>
     <div class="randomPokemon">
         <img class="pokemonImg" src="{{ pokemon.sprites.front_default }}">
-        <div id="chosenPokeball"></div>
+        <div id="chosenPokeball" onclick="capture()"></div>
     </div>
     <div class="pokeballs">
-        <img id="pokeball" class="pokeball" style="grid-column: 1;grid-row: 1;" src="https://www.pokepedia.fr/images/e/e2/Pok%C3%A9_Ball-RS.png" onclick="myFunction(pokeball)">
-        <img id="superball" class="pokeball" style="grid-column: 2;grid-row: 1;" src="https://www.pokepedia.fr/images/f/f8/Super_Ball-RS.png" onclick="myFunction(superball)">
-        <img id="hyperball" class="pokeball" style="grid-column: 3;grid-row: 1;" src="https://www.pokepedia.fr/images/b/bd/Hyper_Ball-RS.png" onclick="myFunction(hyperball)">
-        <img id="masterball" class="pokeball" style="grid-column: 4;grid-row: 1;" src="https://www.pokepedia.fr/images/a/ac/Master_Ball-RS.png" onclick="myFunction(masterball)">
-        <p style="grid-column: 1;grid-row: 2;margin:auto;">1</p>
-        <p style="grid-column: 2;grid-row: 2;margin:auto;">2</p>
-        <p style="grid-column: 3;grid-row: 2;margin:auto;">3</p>
-        <p style="grid-column: 4;grid-row: 2;margin:auto;">4</p>
+        <img id="pokeball" class="pokeball" style="grid-column: 1;grid-row: 1;" src="https://www.pokepedia.fr/images/e/e2/Pok%C3%A9_Ball-RS.png" onclick="chosenBall(pokeball, {{ qte_pokeball }})">
+        <img id="superball" class="pokeball" style="grid-column: 2;grid-row: 1;" src="https://www.pokepedia.fr/images/f/f8/Super_Ball-RS.png" onclick="chosenBall(superball, {{ qte_superball }})">
+        <img id="hyperball" class="pokeball" style="grid-column: 3;grid-row: 1;" src="https://www.pokepedia.fr/images/b/bd/Hyper_Ball-RS.png" onclick="chosenBall(hyperball, {{ qte_hyperball }})">
+        <img id="masterball" class="pokeball" style="grid-column: 4;grid-row: 1;" src="https://www.pokepedia.fr/images/a/ac/Master_Ball-RS.png" onclick="chosenBall(masterball, {{ qte_masterball }})">
+        <p style="grid-column: 1;grid-row: 2;margin:auto;">{{ qte_pokeball }}</p>
+        <p style="grid-column: 2;grid-row: 2;margin:auto;">{{ qte_superball }}</p>
+        <p style="grid-column: 3;grid-row: 2;margin:auto;">{{ qte_hyperball }}</p>
+        <p style="grid-column: 4;grid-row: 2;margin:auto;">{{ qte_masterball }}</p>
     </div>
     <script>
-        function myFunction(ball){
-            if(ball.id == "pokeball"){
+        var taux_capture = {{ taux_capture }}
+
+        function chosenBall(ball, qte){
+            document.getElementById("chosenPokeball").innerHTML = ""
+
+            if(ball.id == "pokeball" && qte){
                 document.getElementById("chosenPokeball").innerHTML = "<img id=\"chosenPokeball\" src=\"https://www.pokepedia.fr/images/e/e2/Pok%C3%A9_Ball-RS.png\">"
-            }else if(ball.id == "superball"){
+                taux_capture = {{ taux_capture }}
+
+            }else if(ball.id == "superball" && qte){
                 document.getElementById("chosenPokeball").innerHTML = "<img id=\"chosenPokeball\" src=\"https://www.pokepedia.fr/images/f/f8/Super_Ball-RS.png\">"
-            }else if(ball.id == "hyperball"){
+                taux_capture = {{ taux_capture }} + 15
+
+            }else if(ball.id == "hyperball" && qte){
                 document.getElementById("chosenPokeball").innerHTML = "<img id=\"chosenPokeball\" src=\"https://www.pokepedia.fr/images/b/bd/Hyper_Ball-RS.png\">"
-            }else if(ball.id == "masterball"){
+                taux_capture = {{ taux_capture }} + 30
+
+            }else if(ball.id == "masterball" && qte){
                 document.getElementById("chosenPokeball").innerHTML = "<img id=\"chosenPokeball\" src=\"https://www.pokepedia.fr/images/a/ac/Master_Ball-RS.png\">"
+                taux_capture = {{ taux_capture }} + 100
             }
+        }
+
+        function capture(){
+            let nb = random(0, 100)
+            if(nb > taux_capture){
+            let catched = false
+            }else{
+            let catched = true
+            }
+        }
+
+        function random(min, max){
+            return Math.floor(Math.random() * (max - min + 1)) + min;
         }
     </script>
 </body>
