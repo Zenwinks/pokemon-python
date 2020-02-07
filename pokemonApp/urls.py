@@ -14,4 +14,5 @@ urlpatterns = [
     path('shop', views.getShop, name="shop"),
     path('fight/<str:id>', views.getFight, name="fight"),
     path('addPokemon/<str:id>', views.addToPlayerPokemonList, name="addPokemon"),
+    path('fightWon/<str:loot>', views.fightWon, name="fightWon")
 ]

@@ -4,17 +4,47 @@
     <meta charset="UTF-8">
     <title>Prokémon - Inventaire</title>
     <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+
         body {
+            margin: 0;
             cursor: url(http://cur.cursors-4u.net/games/gam-13/gam1282.cur), auto;
         }
 
-        h1 {
-            margin-top: 30px;
-            margin-bottom: 50px;
-            text-align: center;
-            color: black;
-            font-size: 100px;
-            text-decoration: underline overline white;
+        #inventory {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-rows: 10% 90%;
+        }
+
+        .topside {
+            width: 100%;
+            height: 100%;
+            grid-row: 1;
+        }
+
+        .botside {
+            width: 100%;
+            height: 100%;
+            grid-row: 2;
+        }
+
+        .title {
+            background-color: red;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .title > img {
+            height: 80%;
         }
 
         .items {
@@ -27,7 +57,7 @@
             margin: auto;
         }
 
-        a {
+        .tooltip {
             width: 20%;
             list-style-type: none;
             margin: 15px;
@@ -38,7 +68,7 @@
             border-radius: 40% 5%;
         }
 
-        a:hover {
+        .tooltip:hover {
             color: white;
             background-color: dodgerblue;
             text-decoration: none;
@@ -53,59 +83,90 @@
             text-decoration: none;
         }
 
+        p > i {
+            color: gold;
+        }
+
         .tooltip {
-          position: relative;
-          display: inline-block;
+            position: relative;
+            display: inline-block;
         }
 
         .tooltip .tooltiptext {
-          visibility: hidden;
-          width: 300px;
-          background-color: #555;
-          color: #fff;
-          text-align: center;
-          border-radius: 6px;
-          padding: 5px 0;
-          position: absolute;
-          z-index: 1;
-          top: 125%;
-          left: 20%;
-          margin-left: -60px;
-          opacity: 0;
-          transition: opacity 0.3s;
+            visibility: hidden;
+            width: 300px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            top: 125%;
+            left: 20%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         .tooltip .tooltiptext::after {
-          content: "";
-          position: absolute;
-          bottom: 100%;
-          left: 50%;
-          margin-left: -5px;
-          border-width: 5px;
-          border-style: solid;
-          border-color: #555 transparent transparent transparent;
+            content: "";
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
         }
 
         .tooltip:hover .tooltiptext {
-          visibility: visible;
-          opacity: 1;
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .retour {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 30px;
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background-color: darkgrey;
+        }
+
+        .retour > a {
+            color: white;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
 <div id="inventory">
-    <h1>Inventaire</h1>
-    <p>Money : {{ money.qte }} $</p>
-    <ul class="items">
-        {% for item in inventaire %}
-            <a class="tooltip">
-                <li>
-                    <p><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/{{ item.en_name }}.png"> {{ item.item }} : {{ item.qte }}</p>
-                </li>
-                <span class="tooltiptext">{{ item.description }}</span>
-            </a>
-        {% endfor %}
-    </ul>
+    <div class="topside">
+        <div class="title">
+            <img src="https://fontmeme.com/temporary/1baca61974de7f76c03431eb6cfbf497.png" alt="Inventaire">
+        </div>
+    </div>
+    <div class="botside">
+        <p>Portefeuille : {{ money.qte }} <i class="fas fa-coins"></i></p>
+        <ul class="items">
+            {% for item in inventaire %}
+                <a class="tooltip">
+                    <li>
+                        <p>
+                            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/{{ item.en_name }}.png"> {{ item.item }}
+                            : {{ item.qte }}</p>
+                    </li>
+                    <span class="tooltiptext">{{ item.description }}</span>
+                </a>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="retour"><a href="/pokemon"><i class="fas fa-long-arrow-alt-left"></i> Retour</a></div>
 </div>
+<script src="https://kit.fontawesome.com/c8b139e901.js" crossorigin="anonymous"></script>
 </body>
 </html>

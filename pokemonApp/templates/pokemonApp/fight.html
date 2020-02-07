@@ -14,53 +14,63 @@
 <div class="myPokemon">
     <h2 class="nameMyPokemon">{{ equipe.4.name }}</h2>
     <progress id="healthMyPokemon" value="100" max="100"></progress>
-    <img class="myPokemonImg" src="{{ equipe.4.sprites.front_default }}">
+    <img class="myPokemonImg" src="{{ equipe.4.sprites.front_default }}"><br><br>
     {% for move in movesTeam %}
         <button class="movesMyPokemon" onclick="attacked({{ move.power }})">{{ move.name }}</button>
     {% endfor %}
 </div>
 </body>
 </html>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
     function attacked(move) {
         let health = document.getElementById("healthEnnemy")
-        health.value -= move / 10 + {{ equipe.4.stats.4.base_stat }}/10;
+        let moveDammages = move /7;
+        let attackStat = 1+((parseInt({{ equipe.4.stats.4.base_stat }}))/100)
+        console.log(attackStat)
+        health.value -= moveDammages*attackStat
         if (health.value <= 0) {
-            document.getElementById("fightEnd").innerHTML = "Vous avez gagnez le combat"
+            document.getElementById("fightEnd").innerHTML = "Vous avez gagnez le combat et " + {{ pokemon.base_experience }} + " Proképièces"
+            $.ajax({
+                url: '/pokemon/fightWon/' + {{pokemon.base_experience}},
+                dataType: 'json'
+            })
+            setTimeout(function () {history.go(-1)
+            }, 500)
             return;
         }
         ennemyAttack()
     }
 
     function ennemyAttack() {
-        let attackPower = {{ pokemon.stats.4.base_stat }}
+        let attackPower = 1+((parseInt({{ pokemon.stats.4.base_stat }}))/100)
         rand = random(0, 3)
+        console.log(attackPower)
         let health = document.getElementById("healthMyPokemon")
         if (rand === 0) {
             try{
-                health.value -= {{ moves.0.power }}/10
+                health.value -= {{ moves.0.power }}/7
             }
             catch (e) {
                 return;
             }
         } else if (rand === 1) {
             try{
-                health.value -= {{ moves.1.power }}/10
+                health.value -= {{ moves.1.power }}/7
             }
             catch (e) {
                 return;
             }
         } else if (rand === 2) {
             try{
-                health.value -= {{ moves.2.power }}/10
+                health.value -= {{ moves.2.power }}/7
             }
             catch (e) {
                 return;
             }
         } else {
             try{
-                health.value -= {{ moves.3.power }}/10
+                health.value -= {{ moves.3.power }}/7
             }
             catch (e) {
                 return;
