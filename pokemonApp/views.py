@@ -104,8 +104,10 @@ def getFight(request, id):
         if (len(moves) > 3):
             break;
 
+    money = Money.objects.get()
+
     context = {'idMonde': id, 'random_id': random_id, 'pokemon': pokemon, 'moves': moves, 'equipe': equipe,
-               'movesTeam': movesteam}
+               'movesTeam': movesteam,'money': money}
     return render(request, "pokemonApp/fight.html", context)
 
 
@@ -179,3 +181,8 @@ def addToTeam(request, id):
     pokemon = requests.get(GET_POKEMON + id).json()
     context = {'idPokemon': id, 'pokemon': pokemon}
     return render(request, "pokemonApp/catchedPokemon.html", context)
+
+def fightWon(request, loot):
+    money = Money.objects.get()
+    money.qte = str(int(money.qte) + int(loot))
+    money.save()
