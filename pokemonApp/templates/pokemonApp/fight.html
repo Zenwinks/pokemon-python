@@ -138,13 +138,13 @@
     </style>
 </head>
 <body>
-<span id="fightEnd">q</span>
+<span id="fightEnd"></span>
 <h1 class="nameEnnemy">{{ pokemon.name }} has appeared, FIGHT !</h1>
 <div class="wrapper">
     <div class="ennemy">
         <div class="ennemyLife">
             <b>Vie : </b>
-            <progress id="healthEnnemy" value="100" max="100"></progress>
+            <progress id="healthEnnemy" value="1000" max="1000"></progress>
         </div>
         <div class="ennemyInfo">
             <img class="ennemyImg" src="{{ pokemon.sprites.front_default }}">
@@ -152,13 +152,13 @@
     </div>
     <div class="myPokemon">
         <div class="leftMenu">
-            <h2 class="nameMyPokemon">{{ equipe.4.name }}</h2>
-            <img class="myPokemonImg" src="{{ equipe.4.sprites.front_default }}">
+            <h2 class="nameMyPokemon">{{ equipe.0.name }}</h2>
+            <img class="myPokemonImg" src="{{ equipe.0.sprites.front_default }}">
         </div>
         <div class="rightMenu">
             <div>
                 <b>Vie :</b>
-                <progress id="healthMyPokemon" value="100" max="100"></progress>
+                <progress id="healthMyPokemon" value="1000" max="1000"></progress>
             </div>
             <div class="abilities">
                 {% for move in movesTeam %}
@@ -167,6 +167,7 @@
             </div>
         </div>
     </div>
+    <button class="escapeButton" onClick="escape()">Escape</button>
 </div>
 </body>
 </html>
@@ -174,62 +175,103 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
     function attacked(move) {
-        let health = document.getElementById("healthEnnemy")
-        let moveDammages = move / 7;
-        let attackStat = 1 + ((parseInt({{ equipe.4.stats.4.base_stat }})) / 100)
-        console.log(attackStat)
-        health.value -= moveDammages * attackStat
-        if (health.value <= 0) {
-            document.getElementById("fightEnd").innerHTML = "Vous avez gagnez le combat et " + {{ pokemon.base_experience }} +" Proképièces"
+        let healthEnnemy = document.getElementById("healthEnnemy")
+        let moveDammages = move;
+        let attackStat = parseInt({{ equipe.0.stats.4.base_stat }}) * 2
+        healthEnnemy.value -= moveDammages + attackStat
+        if (healthEnnemy.value <= 0) {
+            document.getElementById("fightEnd").innerHTML = "Vous avez gagnez le combat et " + {{ pokemon.base_experience }} +" Proképièces \n Vous allez être rédirigé vers la page d'accueil"
             $.ajax({
                 url: '/pokemon/fightWon/' + {{pokemon.base_experience}},
                 dataType: 'json'
             })
+            disableAll()
             setTimeout(function () {
                 history.go(-1)
-            }, 500)
+            }, 2500)
             return;
         }
         ennemyAttack()
     }
 
     function ennemyAttack() {
-        let attackPower = 1 + ((parseInt({{ pokemon.stats.4.base_stat }})) / 100)
-        rand = random(0, 3)
-        console.log(attackPower)
         let health = document.getElementById("healthMyPokemon")
+        let attackPower = parseInt({{ pokemon.stats.4.base_stat }}) * 2
+        let rand = random(0, 3)
         if (rand === 0) {
             try {
-                health.value -= {{ moves.0.power }}/7
+                health.value -= {{ moves.0.power }} +attackPower
             } catch (e) {
+                health.value -= attackPower * 2
+                console.log("test")
                 return;
             }
         } else if (rand === 1) {
             try {
-                health.value -= {{ moves.1.power }}/7
+                health.value -= {{ moves.1.power }} +attackPower
             } catch (e) {
+                health.value -= attackPower * 2
+                console.log("test")
                 return;
             }
         } else if (rand === 2) {
             try {
-                health.value -= {{ moves.2.power }}/7
+                health.value -= {{ moves.2.power }} +attackPower
             } catch (e) {
+                health.value -= attackPower * 2
+                console.log("test")
                 return;
             }
         } else {
             try {
-                health.value -= {{ moves.3.power }}/7
+                health.value -= {{ moves.3.power }} +attackPower
             } catch (e) {
+                health.value -= attackPower * 2
+                console.log("test")
                 return;
             }
         }
-        health.value -= attackPower / 10
         if (health.value <= 0) {
-            document.getElementById("fightEnd").innerHTML = "Vous avez perdu le combat"
+            document.getElementById("fightEnd").innerHTML = "Vous avez perdu le combat et " + {{ pokemon.base_experience }} +" Proképièces \n Vous allez être rédirigé vers la page d'accueil"
+            $.ajax({
+                url: '/pokemon/fightLose/' + {{pokemon.base_experience}},
+                dataType: 'json'
+            })
+            disableAll()
+            setTimeout(function () {
+                history.go(-1)
+            }, 2500)
+            return;
+        }
+    }
+
+    function escape() {
+        if (random(0, 3) === 0) {
+            document.getElementById("fightEnd").innerHTML = "Vous avez fuit"
+            disableAll()
+            setTimeout(function () {
+                history.go(-1)
+            }, 2500)
+        } else {
+            document.getElementById("fightEnd").innerHTML = "Fuite echouée"
+            ennemyAttack()
         }
     }
 
     function random(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+
+    function disableAll() {
+        let buttons = document.getElementsByClassName("movesMyPokemon")
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].disabled = true;
+        }
+        let buttonEscape = document.getElementsByClassName("escapeButton")
+        for (var i = 0; i < buttonEscape.length; i++) {
+            buttonEscape[i].disabled = true;
+        }
+    }
+
+
 </script>

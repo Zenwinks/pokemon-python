@@ -202,3 +202,8 @@ def fightWon(request, loot):
     money = Money.objects.get()
     money.qte = str(int(money.qte) + int(loot))
     money.save()
+
+def fightLose(request, lost):
+    money = Money.objects.get()
+    money.qte = str(int(money.qte) - int(lost))
+    money.save()
