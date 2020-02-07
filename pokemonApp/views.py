@@ -63,8 +63,19 @@ def getPlayerPokemonList(request):
     return render(request, "pokemonApp/playerPokemonList.html", context)
 
 
-def changeEquipe(request, idOldPokemon, idNewPokemon):
-    pokemon = Equipe.objects.filter(idPokemon=idOldPokemon)
+def getChangeEquipe(request, idOldPokemon):
+    results = []
+    idPokemons = PokemonJoueur.objects.all()
+    for i in range(len(idPokemons)):
+        results.append(requests.get(GET_POKEMON + str(idPokemons[i])).json())
+
+    context = {'pokemonList': results, 'idOldPokemon': idOldPokemon}
+
+    return render(request, "pokemonApp/changeEquipe.html", context)
+
+
+def modifEquipe(request, idOldPokemon, idNewPokemon):
+    pokemon = Equipe.objects.get(idPokemon=idOldPokemon)
     pokemon.idPokemon = idNewPokemon
     pokemon.save()
     return getEquipe(request)

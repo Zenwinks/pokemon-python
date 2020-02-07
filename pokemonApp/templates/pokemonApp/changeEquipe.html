@@ -64,7 +64,7 @@
             text-align: center;
         }
 
-        .liInfo {
+        li {
             list-style-type: none;
             display: flex;
             flex-direction: column;
@@ -73,21 +73,8 @@
             box-shadow: 0 0 11px red;
         }
 
-        .liInfo:hover {
+        li:hover {
             background-color: red;
-        }
-
-        .liModif {
-            display: none;
-            list-style-type: none;
-        {#display: flex;#} flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 11px blue;
-        }
-
-        .liModif:hover {
-            background-color: blue;
         }
 
         a:hover {
@@ -130,24 +117,15 @@
 <div class="wrapper">
     <div class="topside">
         <div class="title">
-            <img src="https://fontmeme.com/temporary/05622ce31b568caa8c84259c9452175d.png" alt="Equipe">
+            <h1>Pokemon Capturé</h1>
+{#            <img src="https://fontmeme.com/temporary/05622ce31b568caa8c84259c9452175d.png" alt="Equipe">#}
         </div>
     </div>
     <div class="botside">
         <ul id="pokemons" class="pokemons">
             {% for pokemon in pokemonList %}
-                <a class="modifEquipe" href="/pokemon/infoPokemon/{{ pokemon.name }}">
-                    <li class="liInfo">
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{ pokemon.id }}.png">
-                        <span>{{ pokemon.name }}</span>
-                    </li>
-                </a>
-            {% endfor %}
-        </ul>
-        <ul id="pokemons" class="pokemons">
-            {% for pokemon in pokemonList %}
-                <a class="modifEquipe" href="/pokemon/changeEquipe/{{ pokemon.id }}">
-                    <li class="liModif" id="liModif">
+                <a href="/pokemon/modifEquipe/{{ idOldPokemon }}/{{ pokemon.id }}">
+                    <li>
                         <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{ pokemon.id }}.png">
                         <span>{{ pokemon.name }}</span>
                     </li>
@@ -155,21 +133,10 @@
             {% endfor %}
         </ul>
 
-        <button class="button">Changer un membre de l'équipe</button>
     </div>
 </div>
 <div class="retour"><a href="javascript:history.go(-1)"><i class="fas fa-long-arrow-alt-left"></i> Retour</a></div>
 <script src="https://kit.fontawesome.com/c8b139e901.js" crossorigin="anonymous"></script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("button").click(function () {
-            $("li").toggle();
-        });
-    });
-</script>
-
 </body>
 
 </html>
