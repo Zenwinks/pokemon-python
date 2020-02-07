@@ -3,9 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Bravo</title>
+    <style>
+        .retour {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 30px;
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background-color: darkgrey;
+        }
+
+        .retour > a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .retour:hover {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <div>Bravo, vous avez attrapé {{ pokemon.name }}</div>
-    <img class="pokemonImg" src="{{ pokemon.sprites.front_default }}">
+<div>Bravo, vous avez attrapé {{ pokemon.name }}</div>
+<img class="pokemonImg" src="{{ pokemon.sprites.front_default }}">
+<div class="retour"><a href="javascript:history.go(-2)"><i class="fas fa-long-arrow-alt-left"></i> Retour</a></div>
+
+<script src="https://kit.fontawesome.com/c8b139e901.js" crossorigin="anonymous"></script>
 </body>
 </html>
