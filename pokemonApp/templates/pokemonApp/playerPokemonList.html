@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Equipe</title>
+
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            cursor: url(http://cur.cursors-4u.net/games/gam-13/gam1282.cur), auto;
+        }
+
+        .wrapper {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-rows: 10% 90%;
+        }
+
+        .topside {
+            width: 100%;
+            height: 100%;
+            grid-row: 1;
+        }
+
+        .botside {
+            width: 100%;
+            height: 100%;
+            grid-row: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .title {
+            background-color: red;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .title > img {
+            height: 80%;
+        }
+
+        .pokemons {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            width: 80%;
+            text-align: center;
+        }
+
+        li {
+            list-style-type: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 11px red;
+        }
+
+        li:hover {
+            background-color: red;
+        }
+
+        a:hover {
+            color: white;
+            font-weight: bold;
+        }
+
+        .button {
+            width: 200px;
+            height: 50px;
+            outline: none;
+            background-color: dodgerblue;
+            color: white;
+            border: none;
+            margin: 20px;
+        }
+
+        .retour {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 30px;
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background-color: darkgrey;
+        }
+
+        .retour > a {
+            color: white;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="wrapper">
+    <div class="topside">
+        <div class="title">
+            <h1>Pokemon Capturé</h1>
+{#            <img src="https://fontmeme.com/temporary/05622ce31b568caa8c84259c9452175d.png" alt="Equipe">#}
+        </div>
+    </div>
+    <div class="botside">
+        <ul id="pokemons" class="pokemons">
+            {% for pokemon in pokemonList %}
+                <a href="/pokemon/infoPokemon/{{ pokemon.name }}">
+                    <li>
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{ pokemon.id }}.png">
+                        <span>{{ pokemon.name }}</span>
+                    </li>
+                </a>
+            {% endfor %}
+        </ul>
+
+    </div>
+</div>
+<div class="retour"><a href="javascript:history.go(-1)"><i class="fas fa-long-arrow-alt-left"></i> Retour</a></div>
+<script src="https://kit.fontawesome.com/c8b139e901.js" crossorigin="anonymous"></script>
+</body>
+
+</html>
