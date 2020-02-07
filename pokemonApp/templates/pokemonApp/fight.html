@@ -12,9 +12,9 @@
     <img class="ennemyImg" src="{{ pokemon.sprites.front_default }}">
 </div>
 <div class="myPokemon">
-    <h2 class="nameMyPokemon">{{ equipe.4.name }}</h2>
+    <h2 class="nameMyPokemon">{{ equipe.0.name }}</h2>
     <progress id="healthMyPokemon" value="100" max="100"></progress>
-    <img class="myPokemonImg" src="{{ equipe.4.sprites.front_default }}"><br><br>
+    <img class="myPokemonImg" src="{{ equipe.0.sprites.front_default }}"><br><br>
     {% for move in movesTeam %}
         <button class="movesMyPokemon" onclick="attacked({{ move.power }})">{{ move.name }}</button>
     {% endfor %}
@@ -26,7 +26,7 @@
     function attacked(move) {
         let health = document.getElementById("healthEnnemy")
         let moveDammages = move /7;
-        let attackStat = 1+((parseInt({{ equipe.4.stats.4.base_stat }}))/100)
+        let attackStat = 1+((parseInt({{ equipe.0.stats.4.base_stat }}))/100)
         console.log(attackStat)
         health.value -= moveDammages*attackStat
         if (health.value <= 0) {

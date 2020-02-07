@@ -41,17 +41,26 @@ def getEquipe(request):
     i = 0
     while i < 6:
         try:
-            print('1')
             pokemonList = requests.get(GET_POKEMON + '/' + str(idPokemon[i]))
             results.append(pokemonList.json())
         except:
-            print('2')
             results.append({''})
         i = i + 1
 
     context = {'pokemonList': results}
 
     return render(request, "pokemonApp/equipe.html", context)
+
+
+def getPlayerPokemonList(request):
+    results = []
+    idPokemons = PokemonJoueur.objects.all()
+    for i in range(len(idPokemons)):
+        results.append(requests.get(GET_POKEMON + str(idPokemons[i])).json())
+
+    context = {'pokemonList': results}
+
+    return render(request, "pokemonApp/playerPokemonList.html", context)
 
 
 def changeEquipe(request, idOldPokemon, idNewPokemon):
@@ -96,7 +105,7 @@ def getFight(request, id):
         equipe.append(requests.get(GET_POKEMON + str(idPokemons[i])).json())
 
     movesteam = []
-    for pokeMove in equipe[4]["moves"]:
+    for pokeMove in equipe[0]["moves"]:
         t = requests.get(pokeMove["move"]["url"])
         print(pokeMove["move"]["url"])
         movesteam.append(t.json())
@@ -113,7 +122,7 @@ def getFight(request, id):
     money = Money.objects.get()
 
     context = {'idMonde': id, 'random_id': random_id, 'pokemon': pokemon, 'moves': moves, 'equipe': equipe,
-               'movesTeam': movesteam,'money': money}
+               'movesTeam': movesteam, 'money': money}
     return render(request, "pokemonApp/fight.html", context)
 
 
@@ -187,6 +196,7 @@ def addToPlayerPokemonList(request, id):
     pokemon = requests.get(GET_POKEMON + id).json()
     context = {'idPokemon': id, 'pokemon': pokemon}
     return render(request, "pokemonApp/catchedPokemon.html", context)
+
 
 def fightWon(request, loot):
     money = Money.objects.get()

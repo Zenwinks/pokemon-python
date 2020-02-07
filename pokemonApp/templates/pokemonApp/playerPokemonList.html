@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Equipe</title>
+</head>
+
+<body>
+
+<div>
+    <a href="javascript:history.go(-1)" class="back">
+        <button>Retour</button>
+    </a>
+    <h1>Equipe</h1>
+    <button class="button">Changer un membre de l'équipe</button>
+</div>
+
+<div id="app">
+    <ul id="pokemons" class="pokemons">
+        {% for pokemon in pokemonList %}
+            <a href="/pokemon/infoPokemon/{{ pokemon.name }}">
+                <li>
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{ pokemon.id }}.png">
+                    <span>{{ pokemon.name }}</span>
+                </li>
+            </a>
+        {% endfor %}
+    </ul>
+</div>
+
+</body>
+
+</html>
+
+<style>
+
+    h1 {
+        text-align: center;
+    }
+
+    .pokemons {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        width: 80%;
+        text-align: center;
+        margin: auto;
+    }
+
+</style>
