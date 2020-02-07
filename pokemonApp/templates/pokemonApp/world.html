@@ -15,13 +15,37 @@
             cursor: url(http://cur.cursors-4u.net/games/gam-13/gam1282.cur), auto;
         }
 
-        h1 {
-            margin-top: 30px;
-            margin-bottom: 20px;
-            text-align: center;
-            color: black;
-            font-size: 100px;
-            text-decoration: underline overline;
+        .wrapper {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-rows: 10% 90%;
+        }
+
+        .topside {
+            width: 100%;
+            height: 100%;
+            grid-row: 1;
+        }
+
+        .botside {
+            width: 100%;
+            height: 100%;
+            grid-row: 2;
+        }
+
+        .title {
+            background-color: red;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .title > img {
+            height: 80%;
         }
 
         .menu {
@@ -59,40 +83,71 @@
             cursor: url(http://cur.cursors-4u.net/games/gam-13/gam1282.cur), auto;
         }
 
-        .buttonExplore:hover{
+        .buttonExplore:hover {
             background-image: url("https://www.tynker.com/projects/images/5661c9ced111628b108b4acc/background-scene---120.png");
             background-size: 320px 200px;
             background-position: center;
         }
-        .buttonShop:hover{
+
+        .buttonShop:hover {
             background-image: url("http://mii-gamer.com/wp-content/uploads/2014/07/pikachu-it-prints-money.jpg");
             background-size: 320px 200px;
             background-position: center;
         }
-        .buttonFight:hover{
+
+        .buttonFight:hover {
             background-image: url("https://i.pinimg.com/originals/2c/dd/4d/2cdd4def3fcd3935b0eafe7ca4269cc9.png");
             background-size: 320px 200px;
             background-position: center;
         }
-        .buttonArena:hover{
+
+        .buttonArena:hover {
             background-image: url("https://www.mariowiki.com/images/2/2d/SSBB_Pok%C3%A9mon_Stadium_2_Stage.png");
             background-size: 320px 200px;
             background-position: center;
         }
 
+        .retour {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 30px;
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background-color: darkgrey;
+        }
+
+        .retour > a {
+            color: white;
+            text-decoration: none;
+        }
+
     </style>
 </head>
 <body>
-    <h1>Monde {{ idMonde }}</h1>
-
-    <ul class="menu">
-        <a class="buttonExplore" href="/pokemon/explore/{{ idMonde }}"><li>Explorer</li></a>
-        <a class="buttonShop" href="/pokemon/shop"><li>Magasin</li></a>
-        <a class="buttonFight" href="/pokemon/fight/{{ idMonde }}"><li>Combat</li></a>
-        <a class="buttonArena" href=""><li>Arène</li></a>
-    </ul>
-
-    <a href="javascript:history.go(-1)" class="back"><button>Retour</button></a>
-
+<div class="wrapper">
+    <div class="topside">
+        <div class="title">
+            <img src="https://fontmeme.com/temporary/b23700d3bc45319d6aa598e3d751644f.png" alt="Monde">
+        </div>
+    </div>
+    <div class="botside">
+        <ul class="menu">
+            <a class="buttonExplore" href="/pokemon/explore/{{ idMonde }}">
+                <li>Explorer</li>
+            </a>
+            <a class="buttonShop" href="/pokemon/shop">
+                <li>Magasin</li>
+            </a>
+            <a class="buttonFight" href="/pokemon/fight/{{ idMonde }}">
+                <li>Combat</li>
+            </a>
+        </ul>
+    </div>
+</div>
+<div class="retour"><a href="javascript:history.go(-1)"><i class="fas fa-long-arrow-alt-left"></i> Retour</a></div>
+<script src="https://kit.fontawesome.com/c8b139e901.js" crossorigin="anonymous"></script>
 </body>
 </html>
