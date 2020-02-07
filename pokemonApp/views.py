@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from pokemonApp.models import Inventaire, Shop, Money, Equipe
+from pokemonApp.models import Inventaire, Shop, Money, Equipe, PokemonJoueur
 import requests
 import random
 
@@ -9,6 +9,7 @@ GET_POKEMON = 'https://pokeapi.co/api/v2/pokemon/'
 def getHome(request):
     return render(request, "pokemonApp/home.html")
 
+
 def getPokedex(request):
     pokemonList = requests.get(GET_POKEMON + "?limit=1000000")
     context = {'pokemonList': pokemonList.json()}
@@ -16,6 +17,7 @@ def getPokedex(request):
         id = context['pokemonList']['results'][i]['url'].split("/")
         context['pokemonList']['results'][i]['id'] = id[-2]
     return render(request, "pokemonApp/pokedex.html", context)
+
 
 def getPokemonByName(request, name):
     p = requests.get(GET_POKEMON + name)
@@ -37,11 +39,15 @@ def getEquipe(request):
     results = []
     idPokemon = Equipe.objects.all()
     i = 0
-    for i in range(len(idPokemon)):
-        pokemonList = requests.get(GET_POKEMON + '/' + str(idPokemon[i]))
-        results.append(pokemonList.json())
-        if i > 4:
-            break
+    while i < 6:
+        try:
+            print('1')
+            pokemonList = requests.get(GET_POKEMON + '/' + str(idPokemon[i]))
+            results.append(pokemonList.json())
+        except:
+            print('2')
+            results.append({''})
+        i = i + 1
 
     context = {'pokemonList': results}
 
@@ -174,8 +180,8 @@ def buyItemInShop(request, item, prix):
     return getShop(request)
 
 
-def addToTeam(request, id):
-    Equipe.objects.create(idPokemon=id)
+def addToPlayerPokemonList(request, id):
+    PokemonJoueur.objects.create(idPokemon=id)
     pokemon = requests.get(GET_POKEMON + id).json()
     context = {'idPokemon': id, 'pokemon': pokemon}
     return render(request, "pokemonApp/catchedPokemon.html", context)
