@@ -3,39 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <title>Fight</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wrapper {
+            width: 55%;
+            height: 70%;
+            background-image: url("data:image/jpeg;base64,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");
+            background-repeat: no-repeat;
+            background-size: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-end;
+        }
+
+        .ennemy {
+            width: 50%;
+            height: 40%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            color: black;
+        }
+
+        .myPokemon {
+            width: 100%;
+            height: 50%;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .ennemyInfo {
+            height: 100%;
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ennemyLife {
+            height: 100%;
+            width: 60%;
+            display: flex;
+            align-items: center;
+        }
+
+        .ennemyImg {
+            width: 100%;
+            height: 100%;
+        }
+
+        #fightEnd {
+            width: 55%;
+            height: 5%;
+        }
+
+        .nameEnnemy {
+            width: 55%;
+            height: 5%;
+            text-align: center;
+        }
+
+        .leftMenu {
+            width: 30%;
+            height: 100%;
+        }
+
+        .nameMyPokemon {
+            color: black;
+            width: 100%;
+            height: 10%;
+            text-align: center;
+            margin: 0;
+        }
+
+        .myPokemonImg {
+            width: 100%;
+            height: 90%;
+        }
+
+        .rightMenu {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            color: black;
+        }
+
+        #healthMyPokemon {
+            width: 50%;
+            background-color: black;
+        }
+
+        #healthEnnemy {
+            width: 70%;
+            background-color: black;
+        }
+
+        .abilities {
+            width: 90%;
+            height: 40%;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: center;
+            border: 1px solid dimgrey;
+            margin-bottom: 10px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+
+        .movesMyPokemon {
+            width: 20%;
+            height: 40%;
+            margin: 0 10px;
+            outline: none;
+        }
+    </style>
 </head>
 <body>
 <span id="fightEnd">q</span>
-<div class="ennemy">
-    <h1 class="nameEnnemy">{{ pokemon.name }} has appeared</h1>
-    <progress id="healthEnnemy" value="100" max="100"></progress>
-    <img class="ennemyImg" src="{{ pokemon.sprites.front_default }}">
-</div>
-<div class="myPokemon">
-    <h2 class="nameMyPokemon">{{ equipe.0.name }}</h2>
-    <progress id="healthMyPokemon" value="100" max="100"></progress>
-    <img class="myPokemonImg" src="{{ equipe.0.sprites.front_default }}"><br><br>
-    {% for move in movesTeam %}
-        <button class="movesMyPokemon" onclick="attacked({{ move.power }})">{{ move.name }}</button>
-    {% endfor %}
+<h1 class="nameEnnemy">{{ pokemon.name }} has appeared, FIGHT !</h1>
+<div class="wrapper">
+    <div class="ennemy">
+        <div class="ennemyLife">
+            <b>Vie : </b>
+            <progress id="healthEnnemy" value="100" max="100"></progress>
+        </div>
+        <div class="ennemyInfo">
+            <img class="ennemyImg" src="{{ pokemon.sprites.front_default }}">
+        </div>
+    </div>
+    <div class="myPokemon">
+        <div class="leftMenu">
+            <h2 class="nameMyPokemon">{{ equipe.4.name }}</h2>
+            <img class="myPokemonImg" src="{{ equipe.4.sprites.front_default }}">
+        </div>
+        <div class="rightMenu">
+            <div>
+                <b>Vie :</b>
+                <progress id="healthMyPokemon" value="100" max="100"></progress>
+            </div>
+            <div class="abilities">
+                {% for move in movesTeam %}
+                    <button class="movesMyPokemon" onclick="attacked({{ move.power }})">{{ move.name }}</button>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
+<script src="https://kit.fontawesome.com/c8b139e901.js" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
     function attacked(move) {
         let health = document.getElementById("healthEnnemy")
-        let moveDammages = move /7;
-        let attackStat = 1+((parseInt({{ equipe.0.stats.4.base_stat }}))/100)
+        let moveDammages = move / 7;
+        let attackStat = 1 + ((parseInt({{ equipe.4.stats.4.base_stat }})) / 100)
         console.log(attackStat)
-        health.value -= moveDammages*attackStat
+        health.value -= moveDammages * attackStat
         if (health.value <= 0) {
-            document.getElementById("fightEnd").innerHTML = "Vous avez gagnez le combat et " + {{ pokemon.base_experience }} + " Proképièces"
+            document.getElementById("fightEnd").innerHTML = "Vous avez gagnez le combat et " + {{ pokemon.base_experience }} +" Proképièces"
             $.ajax({
                 url: '/pokemon/fightWon/' + {{pokemon.base_experience}},
                 dataType: 'json'
             })
-            setTimeout(function () {history.go(-1)
+            setTimeout(function () {
+                history.go(-1)
             }, 500)
             return;
         }
@@ -43,36 +194,32 @@
     }
 
     function ennemyAttack() {
-        let attackPower = 1+((parseInt({{ pokemon.stats.4.base_stat }}))/100)
+        let attackPower = 1 + ((parseInt({{ pokemon.stats.4.base_stat }})) / 100)
         rand = random(0, 3)
         console.log(attackPower)
         let health = document.getElementById("healthMyPokemon")
         if (rand === 0) {
-            try{
+            try {
                 health.value -= {{ moves.0.power }}/7
-            }
-            catch (e) {
+            } catch (e) {
                 return;
             }
         } else if (rand === 1) {
-            try{
+            try {
                 health.value -= {{ moves.1.power }}/7
-            }
-            catch (e) {
+            } catch (e) {
                 return;
             }
         } else if (rand === 2) {
-            try{
+            try {
                 health.value -= {{ moves.2.power }}/7
-            }
-            catch (e) {
+            } catch (e) {
                 return;
             }
         } else {
-            try{
+            try {
                 health.value -= {{ moves.3.power }}/7
-            }
-            catch (e) {
+            } catch (e) {
                 return;
             }
         }
