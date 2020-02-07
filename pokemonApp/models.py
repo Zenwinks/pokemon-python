@@ -34,3 +34,10 @@ class Equipe(models.Model):
 
     def __str__(self):
         return str(self.idPokemon)
+
+
+class PokemonJoueur(models.Model):
+    idPokemon = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.idPokemon)
