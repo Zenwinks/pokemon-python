@@ -8,13 +8,13 @@
 <span id="fightEnd">q</span>
 <div class="ennemy">
     <h1 class="nameEnnemy">{{ pokemon.name }} has appeared</h1>
-    <progress id="healthEnnemy" value="100" max="100"></progress>
+    <progress id="healthEnnemy" value="1000" max="1000"></progress>
     <img class="ennemyImg" src="{{ pokemon.sprites.front_default }}">
 </div>
 <div class="myPokemon">
-    <h2 class="nameMyPokemon">{{ equipe.4.name }}</h2>
-    <progress id="healthMyPokemon" value="100" max="100"></progress>
-    <img class="myPokemonImg" src="{{ equipe.4.sprites.front_default }}"><br><br>
+    <h2 class="nameMyPokemon">{{ equipe.0.name }}</h2>
+    <progress id="healthMyPokemon" value="1000" max="1000"></progress>
+    <img class="myPokemonImg" src="{{ equipe.0.sprites.front_default }}"><br><br>
     {% for move in movesTeam %}
         <button class="movesMyPokemon" onclick="attacked({{ move.power }})">{{ move.name }}</button>
     {% endfor %}
@@ -25,10 +25,9 @@
 <script type="text/javascript">
     function attacked(move) {
         let health = document.getElementById("healthEnnemy")
-        let moveDammages = move /7;
-        let attackStat = 1+((parseInt({{ equipe.4.stats.4.base_stat }}))/100)
-        console.log(attackStat)
-        health.value -= moveDammages*attackStat
+        let moveDammages = move;
+        let attackStat = parseInt({{ equipe.0.stats.4.base_stat }})
+        health.value -= moveDammages+attackStat
         if (health.value <= 0) {
             document.getElementById("fightEnd").innerHTML = "Vous avez gagnez le combat et " + {{ pokemon.base_experience }} + " Proképièces"
             $.ajax({
@@ -43,40 +42,40 @@
     }
 
     function ennemyAttack() {
-        let attackPower = 1+((parseInt({{ pokemon.stats.4.base_stat }}))/100)
+        let attackPower = parseInt({{ pokemon.stats.4.base_stat }})
         rand = random(0, 3)
         console.log(attackPower)
         let health = document.getElementById("healthMyPokemon")
         if (rand === 0) {
             try{
-                health.value -= {{ moves.0.power }}/7
+                health.value -= {{ moves.0.power }}
             }
             catch (e) {
                 return;
             }
         } else if (rand === 1) {
             try{
-                health.value -= {{ moves.1.power }}/7
+                health.value -= {{ moves.1.power }}
             }
             catch (e) {
                 return;
             }
         } else if (rand === 2) {
             try{
-                health.value -= {{ moves.2.power }}/7
+                health.value -= {{ moves.2.power }}
             }
             catch (e) {
                 return;
             }
         } else {
             try{
-                health.value -= {{ moves.3.power }}/7
+                health.value -= {{ moves.3.power }}
             }
             catch (e) {
                 return;
             }
         }
-        health.value -= attackPower / 10
+        health.value -= attackPower
         if (health.value <= 0) {
             document.getElementById("fightEnd").innerHTML = "Vous avez perdu le combat"
         }

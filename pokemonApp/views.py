@@ -90,7 +90,7 @@ def getFight(request, id):
         equipe.append(requests.get(GET_POKEMON + str(idPokemons[i])).json())
 
     movesteam = []
-    for pokeMove in equipe[4]["moves"]:
+    for pokeMove in equipe[0]["moves"]:
         t = requests.get(pokeMove["move"]["url"])
         print(pokeMove["move"]["url"])
         movesteam.append(t.json())
