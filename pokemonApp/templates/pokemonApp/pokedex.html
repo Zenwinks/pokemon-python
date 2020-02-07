@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Accueil</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            background-image: url("https://external-preview.redd.it/z7_wYb9-YSvt0pDJlDIu8iuK_aWdqZPg0wvrGdwNvBw.png?auto=webp&s=b40bf3d0bccf7fe4f8dc601182710ca34eac2222");
+            background-attachment: fixed;
+            background-size: contain;
+        }
+
+        h1 {
+            text-align: center;
+            color: red;
+        }
+
+        .pokemons {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            width: 80%;
+            text-align: center;
+            margin: auto;
+        }
+
+        .name {
+            width: 20%;
+            height: 200px;
+            list-style-type: none;
+            margin: 15px;
+            background-color: white;
+            color: red;
+            font-weight: bold;
+            border: 5px solid red;
+            border-radius: 60px;
+        }
+
+        .name:hover {
+            color: red;
+            text-decoration: none;
+            cursor: url(http://cur.cursors-4u.net/games/gam-13/gam1282.cur), default;
+            box-shadow: 10px 5px 5px red;
+        }
+
+        .search {
+            width: 70%;
+            margin: auto;
+        }
+
+        .fa-search {
+            color: white;
+        }
+
+        .input-group-text {
+            background-color: red;
+            border: 1px solid red;
+        }
+
+        .form-control {
+            color: red;
+            background-color: white;
+            border: 1px solid red;
+        }
+
+        li {
+            height: 100%;
+            display: flex;
+            justify-content: space-evenly;
+            flex-direction: column;
+        }
+
+        img {
+            height: 180px;
+        }
+
+        p:first-letter {
+            text-transform: uppercase;
+        }
+
+        .fight-btn {
+            right: 0;
+            top: 0;
+            position: fixed;
+        }
+    </style>
+
+    <script src="https://kit.fontawesome.com/c8b139e901.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#search").on("keyup", function () {
+                let value = $(this).val().toLowerCase();
+                $(".name").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<a href="javascript:history.go(-1)" class="back">
+    <button>Retour</button>
+</a>
+<h1>Bienvenue dans votre Pokédex</h1>
+<div class="input-group mb-3 search">
+    <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+    </div>
+    <input type="text" class="form-control" id="search" placeholder="Recherche de pokémon..."
+           aria-label="Recherche de pokémon"
+           aria-describedby="basic-addon1">
+</div>
+<ul id="pokemons" class="pokemons">
+    {% for pokemon in pokemonList.results %}
+        <a href="/pokemon/infoPokemon/{{ pokemon.name }}" class="name">
+            <li>
+                <img src="http://www.pokestadium.com/assets/img/sprites/official-art/large/{{ pokemon.name }}.png">
+                <p>{{ pokemon.name }}</p>
+            </li>
+        </a>
+    {% endfor %}
+</ul>
+</body>
+</html>
