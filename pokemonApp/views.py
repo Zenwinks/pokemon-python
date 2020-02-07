@@ -67,8 +67,9 @@ def getFight(request, id):
         equipe.append(requests.get(GET_POKEMON + str(idPokemons[i])).json())
 
     movesteam = []
-    for pokeMove in equipe[0]["moves"]:
+    for pokeMove in equipe[4]["moves"]:
         t = requests.get(pokeMove["move"]["url"])
+        print(pokeMove["move"]["url"])
         movesteam.append(t.json())
         if (len(movesteam) > 3):
             break;
@@ -79,6 +80,7 @@ def getFight(request, id):
         moves.append(t.json())
         if (len(moves) > 3):
             break;
+
     context = {'idMonde': id, 'random_id': random_id, 'pokemon': pokemon, 'moves': moves, 'equipe': equipe,
                'movesTeam': movesteam}
     return render(request, "pokemonApp/fight.html", context)
