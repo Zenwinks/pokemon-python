@@ -15,5 +15,8 @@ urlpatterns = [
     path('fight/<str:id>', views.getFight, name="fight"),
     path('addPokemon/<str:id>', views.addToPlayerPokemonList, name="addPokemon"),
     path('fightWon/<str:loot>', views.fightWon, name="fightWon"),
+    path('fightLose/<str:lost>', views.fightLose, name="fightLose"),
     path('playerPokemonList', views.getPlayerPokemonList, name="playerPokemonList"),
+    path('changeEquipe/<str:idOldPokemon>', views.getChangeEquipe, name="changeEquipe"),
+    path('modifEquipe/<str:idOldPokemon>/<str:idNewPokemon>', views.modifEquipe, name="modifEquipe"),
 ]

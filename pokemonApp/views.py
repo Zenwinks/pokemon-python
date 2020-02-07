@@ -37,17 +37,19 @@ def getPokemonByName(request, name):
 
 def getEquipe(request):
     results = []
+    pokemonId = []
     idPokemon = Equipe.objects.all()
     i = 0
     while i < 6:
         try:
             pokemonList = requests.get(GET_POKEMON + '/' + str(idPokemon[i]))
             results.append(pokemonList.json())
+            pokemonId.append(idPokemon[i])
         except:
             results.append({''})
         i = i + 1
 
-    context = {'pokemonList': results}
+    context = {'pokemonList': results, 'pokemonId': pokemonId}
 
     return render(request, "pokemonApp/equipe.html", context)
 
@@ -63,8 +65,19 @@ def getPlayerPokemonList(request):
     return render(request, "pokemonApp/playerPokemonList.html", context)
 
 
-def changeEquipe(request, idOldPokemon, idNewPokemon):
-    pokemon = Equipe.objects.filter(idPokemon=idOldPokemon)
+def getChangeEquipe(request, idOldPokemon):
+    results = []
+    idPokemons = PokemonJoueur.objects.all()
+    for i in range(len(idPokemons)):
+        results.append(requests.get(GET_POKEMON + str(idPokemons[i])).json())
+
+    context = {'pokemonList': results, 'idOldPokemon': idOldPokemon}
+
+    return render(request, "pokemonApp/changeEquipe.html", context)
+
+
+def modifEquipe(request, idOldPokemon, idNewPokemon):
+    pokemon = Equipe.objects.get(idPokemon=idOldPokemon)
     pokemon.idPokemon = idNewPokemon
     pokemon.save()
     return getEquipe(request)
@@ -201,4 +214,9 @@ def addToPlayerPokemonList(request, id):
 def fightWon(request, loot):
     money = Money.objects.get()
     money.qte = str(int(money.qte) + int(loot))
+    money.save()
+
+def fightLose(request, lost):
+    money = Money.objects.get()
+    money.qte = str(int(money.qte) - int(lost))
     money.save()
