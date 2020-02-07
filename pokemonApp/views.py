@@ -37,17 +37,19 @@ def getPokemonByName(request, name):
 
 def getEquipe(request):
     results = []
+    pokemonId = []
     idPokemon = Equipe.objects.all()
     i = 0
     while i < 6:
         try:
             pokemonList = requests.get(GET_POKEMON + '/' + str(idPokemon[i]))
             results.append(pokemonList.json())
+            pokemonId.append(idPokemon[i])
         except:
             results.append({''})
         i = i + 1
 
-    context = {'pokemonList': results}
+    context = {'pokemonList': results, 'pokemonId': pokemonId}
 
     return render(request, "pokemonApp/equipe.html", context)
 
